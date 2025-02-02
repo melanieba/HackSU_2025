@@ -25,14 +25,8 @@
         let list = document.getElementById("entries-list");
         console.log("Is entries-list found?", list);
 
-        if (!list) {
-            console.error("Error: #entries-list element not found in the DOM!");
-            return; // Stop execution if the list doesn't exist
-        }
-
         let response = await fetch("http://127.0.0.1:5002/entries");
         let entries = await response.json();
-
         console.log("Entries received from API:", entries);
 
         list.innerHTML = ""; // Clear previous entries
@@ -41,31 +35,68 @@
             console.log("No entries found.");
             list.innerHTML = "<li class='list-group-item'>No past entries yet.</li>";
         } else {
-            entries.forEach(entry => {
+            // Use for...of to handle async properly
+            for (let entry of entries) {
                 console.log("Processing entry:", entry);
 
                 let moodText;
                 switch (entry.moodID) {
-                    case 1: moodText = "very bad"; break;
-                    case 2: moodText = "bad"; break;
-                    case 3: moodText = "okay"; break;
-                    case 4: moodText = "happy"; break;
-                    case 5: moodText = "very happy"; break;
+                    case 1: moodText = "Bad"; break;
+                    case 2: moodText = "Not Good"; break;
+                    case 3: moodText = "Neutral"; break;
+                    case 4: moodText = "Good"; break;
+                    case 5: moodText = "Very Good"; break;
                     default: moodText = "Unknown Mood";
                 }
 
+
                 let journalText = entry.journalEntry ? entry.journalEntry : "No journal entry available";
+
+                // Fetch the journal prompt using the emotionID
+                let journalPrompt = await fetchJournalPrompt(entry.emotionID);
+                const promptText = journalPrompt ? journalPrompt : "No journal prompt available";
+
+                // Check if the dateAndTime is valid
+                let date;
+                if (entry.dateAndTime && entry.dateAndTime !== 0) {
+                    // If the date is a Unix timestamp (in seconds), multiply by 1000 to convert to milliseconds
+                    if (typeof entry.dateAndTime === 'number') {
+                        date = new Date(entry.dateAndTime * 1000);
+                    } else {
+                        // If it's an ISO string or other valid date string
+                        date = new Date(entry.dateAndTime);
+                    }
+                } else {
+                    // Set a default value if the date is invalid
+                    date = new Date();
+                }
+
+                console.log("Date after parsing: ", date);
+
+                // Format the date to a local date-time string with options
+                const formattedDate = date.toLocaleString('en-US', {
+                    weekday: 'long', // Long weekday name (e.g., "Monday")
+                    year: 'numeric', // Full year (e.g., 2025)
+                    month: 'long', // Full month name (e.g., "February")
+                    day: 'numeric', // Day of the month (e.g., 1)
+                    hour: 'numeric', // Hour (e.g., 5)
+                    minute: 'numeric', // Minute (e.g., 30)
+                    second: 'numeric', // Second (e.g., 15)
+                    hour12: true // Use 12-hour clock
+                });
 
                 let listItem = document.createElement("li");
                 listItem.classList.add("list-group-item");
+
+                // Create the list item with formatted date and mood
                 listItem.innerHTML = `
-                    <strong>${entry.dateAndTime}</strong>: ${moodText} <br>
+                    <strong>${formattedDate}</strong>: ${moodText} - <em>${promptText}</em> <br>
                     <i>${journalText}</i>
                 `;
 
                 list.appendChild(listItem);
                 console.log("Added entry to page:", listItem.innerHTML);
-            });
+            }
 
             console.log("Entries successfully added to the page!");
         }
@@ -73,8 +104,18 @@
         console.error("Error fetching past entries:", error);
     }
 }
+// Fetch journal prompt using emotionID
+async function fetchJournalPrompt(emotionID) {
+    try {
+        let response = await fetch(`http://127.0.0.1:5002/random-prompt?emotionID=${emotionID}`);
+        let data = await response.json();
 
-
+        return data.prompt; // Returns the journal prompt
+    } catch (error) {
+        console.error("Error fetching journal prompt:", error);
+        return null;
+    }
+}
     // Fetch past entries when the page loads
     document.addEventListener("DOMContentLoaded", fetchPastEntries);
     </script>

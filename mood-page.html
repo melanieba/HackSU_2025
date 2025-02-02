@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <script defer>
+        async function fetchContent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const moodID = urlParams.get("moodID");  
+            const emotionID = urlParams.get("emotionID");  
+
+            console.log("Fetched moodID:", moodID, "emotionID:", emotionID); // Debugging output
+
+            if (!moodID || !emotionID) {
+                document.getElementById("quote").innerText = "No mood or emotion selected.";
+                document.getElementById("prompt").innerText = "No journal prompt available.";
+                return;
+            }
+
+            try {
+                // Fetch random quote based on mood
+                console.log(`Fetching quote for moodID: ${moodID}`); // Debugging output
+                let quoteResponse = await fetch(`http://127.0.0.1:5002/random-quote?moodID=${moodID}`);
+                let quoteData = await quoteResponse.json();
+
+                if (quoteData.quote) {
+                    console.log("Quote fetched:", quoteData.quote); // Debugging output
+                    document.getElementById("quote").innerText = `"${quoteData.quote}"`;
+                } else {
+                    console.log("No quote found for moodID:", moodID); // Debugging output
+                    document.getElementById("quote").innerText = "No quote found.";
+                }
+
+                // Fetch random journal prompt based on emotion
+                console.log(`Fetching prompt for emotionID: ${emotionID}`); // Debugging output
+                let promptResponse = await fetch(`http://127.0.0.1:5002/random-prompt?emotionID=${emotionID}`);
+                let promptData = await promptResponse.json();
+
+                if (promptData.prompt) {
+                    console.log("Prompt fetched:", promptData.prompt); // Debugging output
+                    document.getElementById("prompt").innerText = `"${promptData.prompt}"`;
+                } else {
+                    console.log("No prompt found for emotionID:", emotionID); // Debugging output
+                    document.getElementById("prompt").innerText = "No journal prompt found.";
+                }
+
+                // Fetch the mood name from the database
+                const moodResponse = await fetch(`http://127.0.0.1:5002/get-mood-name?moodID=${moodID}`);
+                const moodData = await moodResponse.json();
+
+                if (moodData && moodData.name) {
+                    document.getElementById("mood-name").innerText = moodData.name; // Display mood name
+                } else {
+                    document.getElementById("mood-name").innerText = "Unknown Mood";  // Default mood
+                }
+
+            } catch (error) {
+                console.error("Error fetching content:", error);
+                document.getElementById("quote").innerText = "Error loading quote.";
+                document.getElementById("prompt").innerText = "Error loading prompt.";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchContent);
+    </script>
+</head>
+<body>
+    <h2>Your Mood Result</h2>
+    <p id="quote">Fetching a quote...</p>
+    
+    <!-- Display Mood Name -->
+    <div id="mood-name" style="font-size: 24px; display: none;"></div>
+
+    <h2>Journal Prompt</h2>
+    <p id="prompt">Fetching a journal prompt...</p>
+
+ 
+<!-- Journal Entry Textbox -->
+<!-- Add this section below the journal entry -->
+<div class="container mt-4">
+    <h3>Write your journal entry</h3>
+    <textarea id="journal-entry" class="form-control" rows="5" placeholder="Type your journal entry here..."></textarea>
+    <button id="submit-entry" class="btn btn-outline-primary mt-3">Submit Entry</button>
+
+    <!-- Feedback Messages -->
+    <div id="feedback-message" class="mt-3" style="display: none;"></div>
+</div>
+<script src="mood-selector.js"></script>
+</body>
+</html>

@@ -122,4 +122,4 @@ INSERT INTO PROMPT VALUES
 (24, 12, 'Imagine yourself waking up tomorrow refreshed. What habits can you change to make that happen?');
 
 INSERT INTO ENTRY (dateAndTime, moodID, emotionID, journalEntry, quoteID, promptID, promptEntry)
-VALUES ('2025-02-01 18:30:15', 3, 6, 'Today I got to do a hackathon with my friends!', 1, 16, 'To my past self...');
+VALUES ('2025-02-01 18:30:15', 3, 6, 'This is an example entry', 1, 16, 'To my past self...');
