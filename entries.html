@@ -8,8 +8,8 @@
 
 <body>
     <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
-        <a href="home.html" id="back" class="btn btn-outline-primary">⬅ Back to Home</a>
-        <h2 class="text-center w-100">Past Mood Entries</h2>
+        <a href="home.html" id="back" class="btn btn-outline-primary">Back to Home</a>
+        <h2 class="text-center w-100">Past Entries</h2>
     </header>
 
     <div class="container">
@@ -23,7 +23,7 @@
 
         // Get the entries list element
         let list = document.getElementById("entries-list");
-        console.log("Is entries-list found?", list);  // ✅ Debugging log
+        console.log("Is entries-list found?", list);
 
         if (!list) {
             console.error("Error: #entries-list element not found in the DOM!");
@@ -33,7 +33,7 @@
         let response = await fetch("http://127.0.0.1:5002/entries");
         let entries = await response.json();
 
-        console.log("Entries received from API:", entries); // ✅ Log what we received
+        console.log("Entries received from API:", entries);
 
         list.innerHTML = ""; // Clear previous entries
 
@@ -42,16 +42,16 @@
             list.innerHTML = "<li class='list-group-item'>No past entries yet.</li>";
         } else {
             entries.forEach(entry => {
-                console.log("Processing entry:", entry); // ✅ Log each entry
+                console.log("Processing entry:", entry);
 
                 let moodText;
                 switch (entry.moodID) {
-                    case 1: moodText = "😢 very bad"; break;
-                    case 2: moodText = "😟 bad"; break;
-                    case 3: moodText = "😐 okay"; break;
-                    case 4: moodText = "😊 happy"; break;
-                    case 5: moodText = "😄 very happy"; break;
-                    default: moodText = "❓ Unknown Mood";
+                    case 1: moodText = "very bad"; break;
+                    case 2: moodText = "bad"; break;
+                    case 3: moodText = "okay"; break;
+                    case 4: moodText = "happy"; break;
+                    case 5: moodText = "very happy"; break;
+                    default: moodText = "Unknown Mood";
                 }
 
                 let journalText = entry.journalEntry ? entry.journalEntry : "No journal entry available";
@@ -60,7 +60,7 @@
                 listItem.classList.add("list-group-item");
                 listItem.innerHTML = `
                     <strong>${entry.dateAndTime}</strong>: ${moodText} <br>
-                    📝 <i>${journalText}</i>
+                    <i>${journalText}</i>
                 `;
 
                 list.appendChild(listItem);
