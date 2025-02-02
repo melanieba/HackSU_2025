@@ -67,12 +67,16 @@ console.log("Emotion selected:", selectedEmotion);
         if (selectedMood && selectedEmotion) {
             const moodID = selectedMood.getAttribute("data-moodid");
             const emotionID = selectedEmotion.getAttribute("data-emotionid");
-
+    
+            console.log("Navigating to mood-page.html with:", moodID, emotionID); // Debugging output
+    
             if (moodID && emotionID) {
                 window.location.href = `mood-page.html?moodID=${encodeURIComponent(moodID)}&emotionID=${encodeURIComponent(emotionID)}`;
             } else {
                 console.error("Missing moodID or emotionID.");
             }
+        } else {
+            console.error("Mood or emotion not selected yet.");
         }
     });
 });
