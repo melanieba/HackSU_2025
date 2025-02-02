@@ -44,6 +44,15 @@ body {
   color: #344D36;
 }
 
+#super-happy:hover, #happy:hover, #okay:hover, #bad:hover, #super-bad:hover {
+  opacity: 0.6;
+}
+
+#depressed:hover, #lonely:hover, #annoyed:hover, #sad:hover, #stressed:hover, #tired:hover, #excited:hover, #proud:hover, 
+#angry:hover, #relaxed:hover, #happyEmotion:hover, #anxious:hover {
+  opacity: 0.6;
+}
+
 #mood {
   font-size: 30px;
   margin-top: 30px;
@@ -51,5 +60,10 @@ body {
 }
 
 p {
-    font-size: 20px;
+  font-size: 20px;
+}
+
+#specific-how-are-you {
+  font-size: 35px;
+  margin-bottom: 55px;
 }
