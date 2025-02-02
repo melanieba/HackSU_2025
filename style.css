@@ -1,0 +1,32 @@
+
+#top {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#super-happy {
+  color: green;
+}
+
+#happy {
+  color: greenyellow;
+}
+
+#okay {
+  color: yellow;
+}
+
+#bad {
+  color: lightblue;
+}
+
+#super-bad {
+  color: lightskyblue;
+}
+
+#mood {
+  padding-top: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  font-size: 30px;
+}
