@@ -10,7 +10,7 @@ foreign key (promptID) references PROMPT(promptID) on update cascade,
 promptEntry text
 );
 
-create table MOOD( -- 1 to 5, most sad to most happy
+create table MOOD( -- ID is 1 to 5, most sad to most happy
 moodID tinyint primary key,
 name tinytext
 );
