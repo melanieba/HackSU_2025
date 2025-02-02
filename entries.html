@@ -30,7 +30,7 @@
             return; // Stop execution if the list doesn't exist
         }
 
-        let response = await fetch("http://127.0.0.1:5000/entries");
+        let response = await fetch("http://127.0.0.1:5002/entries");
         let entries = await response.json();
 
         console.log("Entries received from API:", entries); // ✅ Log what we received
