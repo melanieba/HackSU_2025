@@ -4,27 +4,46 @@
   margin-right: 20px;
 }
 
+.btn, .btn-outline-primary {
+  color: #66BB6A;
+  border-color: #66BB6A !important;
+  font-size: 20px;
+}
+
+.btn:hover {
+  background-color: #66BB6A !important;
+}
+
+#how-are-you {
+    font-size: 40px;
+}
+
 #super-happy {
-  color: green;
+  color: #F6EF84;
 }
 
 #happy {
-  color: greenyellow;
+  color: #A6E16D;
 }
 
 #okay {
-  color: yellow;
+  color: #66BB6A;
 }
 
 #bad {
-  color: lightblue;
+  color: #4F7D52;
 }
 
 #super-bad {
-  color: lightskyblue;
+  color: #344D36;
 }
 
 #mood {
   font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 40px;
 }
 
+p {
+    font-size: 20px;
+}
