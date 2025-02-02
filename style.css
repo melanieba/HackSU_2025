@@ -1,4 +1,8 @@
 
+body {
+    font-family: 'Sintony', sans-serif; 
+}
+
 #top {
   margin-left: 20px;
   margin-right: 20px;
@@ -15,7 +19,9 @@
 }
 
 #how-are-you {
-    font-size: 40px;
+  font-size: 40px;
+  font-family: 'Sintony', sans-serif;
+  font-weight: 10px;
 }
 
 #super-happy {
