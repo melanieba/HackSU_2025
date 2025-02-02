@@ -8,6 +8,20 @@ DROP TABLE IF EXISTS EMOTION;
 DROP TABLE IF EXISTS MOOD;
 
 -- Create Tables
+CREATE TABLE ENTRY (
+    dateAndTime TEXT PRIMARY KEY, -- Use TEXT instead of DATETIME
+    moodID INTEGER,
+    emotionID INTEGER,
+    journalEntry TEXT,
+    quoteID INTEGER,
+    promptID INTEGER,
+    promptEntry TEXT,
+    FOREIGN KEY (moodID) REFERENCES MOOD(moodID) ON UPDATE CASCADE,
+    FOREIGN KEY (emotionID) REFERENCES EMOTION(emotionID) ON UPDATE CASCADE,
+    FOREIGN KEY (quoteID) REFERENCES QUOTE(quoteID) ON UPDATE CASCADE,
+    FOREIGN KEY (promptID) REFERENCES PROMPT(promptID) ON UPDATE CASCADE
+);
+
 CREATE TABLE MOOD (
     moodID INTEGER PRIMARY KEY,
     name TEXT NOT NULL
@@ -22,28 +36,14 @@ CREATE TABLE QUOTE (
     quoteID INTEGER PRIMARY KEY,
     moodID INTEGER,
     name TEXT NOT NULL,
-    FOREIGN KEY (moodID) REFERENCES MOOD(moodID) ON DELETE CASCADE
+    FOREIGN KEY (moodID) REFERENCES MOOD(moodID) ON UPDATE CASCADE
 );
 
 CREATE TABLE PROMPT (
     promptID INTEGER PRIMARY KEY,
     emotionID INTEGER,
     name TEXT NOT NULL,
-    FOREIGN KEY (emotionID) REFERENCES EMOTION(emotionID) ON DELETE CASCADE
-);
-
-CREATE TABLE ENTRY (
-    dateAndTime TEXT PRIMARY KEY , -- Use TEXT instead of DATETIME
-    moodID INTEGER,
-    emotionID INTEGER,
-    journalEntry TEXT,
-    quoteID INTEGER,
-    promptID INTEGER,
-    promptEntry TEXT,
-    FOREIGN KEY (moodID) REFERENCES MOOD(moodID) ON DELETE CASCADE,
-    FOREIGN KEY (emotionID) REFERENCES EMOTION(emotionID) ON DELETE CASCADE,
-    FOREIGN KEY (quoteID) REFERENCES QUOTE(quoteID) ON DELETE CASCADE,
-    FOREIGN KEY (promptID) REFERENCES PROMPT(promptID) ON DELETE CASCADE
+    FOREIGN KEY (emotionID) REFERENCES EMOTION(emotionID) ON UPDATE CASCADE
 );
 
 -- Insert Data
@@ -67,7 +67,6 @@ INSERT INTO EMOTION VALUES
 (10, 'sad'),
 (11, 'stressed'),
 (12, 'tired');
-
 
 INSERT INTO QUOTE VALUES
 (1, 1, 'Sometimes, the darkest times can bring us to the brightest places.'),
@@ -121,8 +120,6 @@ INSERT INTO PROMPT VALUES
 (22, 11, 'What is one thing you can do right now to take care of yourself?'),
 (23, 12, 'What is draining your energy the most? How can you recharge?'),
 (24, 12, 'Imagine yourself waking up tomorrow refreshed. What habits can you change to make that happen?');
-
-
 
 INSERT INTO ENTRY (dateAndTime, moodID, emotionID, journalEntry, quoteID, promptID, promptEntry)
 VALUES ('2025-02-01 18:30:15', 3, 6, 'Today I got to do a hackathon with my friends!', 1, 16, 'To my past self...');
