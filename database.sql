@@ -107,3 +107,6 @@ insert into PROMPT values
 (0022, 11, 'What is one thing you can do right now to take care of yourself?'),
 (0023, 12, 'What is draining your energy the most? How can you recharge?'),
 (0024, 12, 'Imagine yourself waking up tomorrow refreshed. What habits can you change to make that happen?');
+
+insert into ENTRY values -- dateAndTime, moodID, emotionID, journalEntry, quoteID, promptID, promptEntry
+('2025-02-01 18:30:15', 3, 6, 'Today I got to do a hackathon with my friends!', 1, 16, 'To my past self...');
