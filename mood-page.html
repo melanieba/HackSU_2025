@@ -36,6 +36,7 @@
                 console.log(`Fetching prompt for emotionID: ${emotionID}`); // Debugging output
                 let promptResponse = await fetch(`http://127.0.0.1:5002/random-prompt?emotionID=${emotionID}`);
                 let promptData = await promptResponse.json();
+                
 
                 if (promptData.prompt) {
                     console.log("Prompt fetched:", promptData.prompt); // Debugging output

@@ -3,6 +3,7 @@ import random
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import time  # Importing the time module to use time.time()
 
 app = Flask(__name__)
 CORS(app)  # This should be enough, but add headers manually if needed
@@ -15,7 +16,6 @@ def add_cors_headers(response):
     return response
 
 DATABASE = "mental_health.db"
-
 
 # Function to connect to SQLite
 def get_db_connection():
@@ -150,10 +150,10 @@ def submit_entry():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Insert the journal entry into the database
+        # Insert the journal entry into the database, including the current timestamp
         cursor.execute(
-            "INSERT INTO ENTRY (moodID, emotionID, journalEntry) VALUES (?, ?, ?)",
-            (mood_id, emotion_id, journal_entry),
+            "INSERT INTO ENTRY (moodID, emotionID, journalEntry, dateAndTime) VALUES (?, ?, ?, ?)",
+            (mood_id, emotion_id, journal_entry, int(time.time()))  # Save current timestamp
         )
         conn.commit()
         conn.close()
